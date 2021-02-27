@@ -334,6 +334,8 @@ const PLAYER = {
                             yAchsis: true,
                             positiv: false
                         }
+                    } else if (!this.grounded) {
+                        this.velocity[1] = -3;
                     }
                     break;
                 case "right":
@@ -346,6 +348,8 @@ const PLAYER = {
                             yAchsis: false,
                             positiv: true
                         }
+                    } else if (!this.grounded) {
+                        this.velocity[0] = 3;
                     }
                     break;
                 case "left":
@@ -358,6 +362,8 @@ const PLAYER = {
                             yAchsis: false,
                             positiv: false
                         }
+                    } else if (!this.grounded) {
+                        this.velocity[0] = -3;
                     }
                     break;
                 case "bottom":
@@ -370,6 +376,8 @@ const PLAYER = {
                             yAchsis: true,
                             positiv: true
                         }
+                    } else if (!this.grounded) {
+                        this.velocity[1] = 3;
                     }
                     break;
             }
@@ -440,6 +448,12 @@ function playerPressEvents(e) {
         case "e":
             PLAYER.changeGravity(1);
             break;
+        case "x":
+            closeAll();
+            break;
+        case "r":
+            focusAll();
+            break;
     }
 }
 //--------------------------------------------------------------------------------------------------------------
@@ -498,6 +512,28 @@ window.addEventListener("message", e => {
             break;
     }
 })
+
+window.addEventListener("unload", () => {
+    closeAll();
+})
+
+function closeAll() {
+    for (var i = 0; i < POPUPS.length; i++) {
+        if (POPUPS[i]) {
+            POPUPS[i].ref.close();
+            POPUPS[i] = null;
+        }
+    }
+}
+
+function focusAll() {
+    for (var i = 0; i < POPUPS.length; i++) {
+        if (POPUPS[i]) {
+            // POPUPS[i].ref.focus();
+            POPUPS[i].ref.postMessage("focus", "*");
+        }
+    }
+}
 //--------------------------------------------------------------------------------------------------------------
 // collision manager
 function intersect(popup) {

@@ -30,5 +30,9 @@ window.addEventListener("message", e => {
             if (index !== null)
                 window.opener.postMessage("position," + index + "," + (window.screenX + 8) + "," + window.screenY + "," + (window.innerWidth + 1) + "," + (window.outerHeight - 8), "*")
             break;
+        case "focus":
+            window.blur();
+            setTimeout(window.focus(), 0);
+            break;
     }
 });
